@@ -5,8 +5,9 @@
       :key="index"
       :small="$vuetify.breakpoint.smAndDown"
       label
+      plain
       :color="color"
-      class="ma-1"
+      class="ma-1 ml-0"
     >
       <v-icon left>
         {{ $globals.icons.clockOutline }}

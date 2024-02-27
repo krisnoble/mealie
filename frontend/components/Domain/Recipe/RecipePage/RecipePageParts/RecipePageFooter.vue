@@ -7,21 +7,6 @@
         class="mt-10"
         :label="$t('recipe.original-url')"
       ></v-text-field>
-      <v-btn
-        v-else-if="recipe.orgURL && !isCookMode"
-        dense
-        small
-        :hover="false"
-        type="label"
-        :ripple="false"
-        elevation="0"
-        :href="recipe.orgURL"
-        color="secondary darken-1"
-        target="_blank"
-        class="rounded-sm mr-n2"
-      >
-        {{ $t("recipe.original-url") }}
-      </v-btn>
     </v-card-actions>
     <AdvancedOnly>
       <v-card v-if="isEditForm" flat class="mb-2 mx-n2">

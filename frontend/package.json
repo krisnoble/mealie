@@ -55,7 +55,6 @@
     "vitest": "^0.29.0"
   },
   "resolutions": {
-    "@nuxtjs/i18n/**/ufo": "0.7.9",
     "vue-demi": "^0.13.11",
     "vue-template-compiler": "2.7.16",
     "postcss-preset-env": "^7.0.0",

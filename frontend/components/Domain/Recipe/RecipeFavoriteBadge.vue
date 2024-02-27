@@ -1,6 +1,4 @@
 <template>
-  <v-tooltip bottom nudge-right="50" :color="buttonStyle ? 'info' : 'secondary'">
-    <template #activator="{ on, attrs }">
       <v-btn
         v-if="isFavorite || showAlways"
         small
@@ -15,9 +13,6 @@
           {{ isFavorite ? $globals.icons.heart : $globals.icons.heartOutline }}
         </v-icon>
       </v-btn>
-    </template>
-    <span>{{ isFavorite ? $t("recipe.remove-from-favorites") : $t("recipe.add-to-favorites") }}</span>
-  </v-tooltip>
 </template>
 
 <script lang="ts">

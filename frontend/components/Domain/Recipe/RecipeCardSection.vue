@@ -85,7 +85,7 @@
           </v-lazy>
         </v-col>
       </v-row>
-      <v-row v-else dense>
+      <v-row v-else>
         <v-col
           v-for="recipe in recipes"
           :key="recipe.name"
@@ -104,6 +104,7 @@
               :image="recipe.image"
               :tags="recipe.tags"
               :recipe-id="recipe.id"
+              flat
             />
           </v-lazy>
         </v-col>

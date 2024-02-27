@@ -8,7 +8,7 @@
       <div v-for="(ingredient, index) in value" :key="'ingredient' + index">
         <h3 v-if="showTitleEditor[index]" class="mt-2">{{ ingredient.title }}</h3>
         <v-divider v-if="showTitleEditor[index]"></v-divider>
-        <v-list-item dense @click="toggleChecked(index)">
+        <v-list-item dense @click="toggleChecked(index)" class="px-0">
           <v-checkbox hide-details :value="checked[index]" class="pt-0 my-auto py-auto" color="secondary" />
           <v-list-item-content :key="ingredient.quantity">
             <RecipeIngredientListItem :ingredient="ingredient" :disable-amount="disableAmount" :scale="scale" />

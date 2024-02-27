@@ -1,10 +1,10 @@
 <template>
-  <div class="ma-0 pa-0 text-subtitle-1 dense-markdown ingredient-item">
+  <div class="ma-0 pa-0 py-0 pl-2 text-body-1 dense-markdown ingredient-item">
     <SafeMarkdown v-if="parsedIng.quantity" class="d-inline" :source="parsedIng.quantity" />
     <template v-if="parsedIng.unit">{{ parsedIng.unit }} </template>
-    <SafeMarkdown v-if="parsedIng.note && !parsedIng.name" class="text-bold d-inline" :source="parsedIng.note" />
+    <SafeMarkdown v-if="parsedIng.note && !parsedIng.name" class="d-inline" :source="parsedIng.note" />
     <template v-else>
-      <SafeMarkdown v-if="parsedIng.name" class="text-bold d-inline" :source="parsedIng.name" />
+      <SafeMarkdown v-if="parsedIng.name" class="d-inline" :source="parsedIng.name" />
       <SafeMarkdown v-if="parsedIng.note" class="note" :source="parsedIng.note" />
     </template>
   </div>

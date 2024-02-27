@@ -3,7 +3,7 @@
     <v-menu v-model="state.menu" offset-y bottom nudge-bottom="3" :close-on-content-click="false">
       <template #activator="{ on, attrs }">
         <v-badge :value="selected.length > 0" small overlap color="primary" :content="selected.length">
-          <v-btn small color="accent" dark v-bind="attrs" v-on="on">
+          <v-btn small elevation="0" :color="($vuetify.theme.dark ? '#007575' : '#0aa')" dark v-bind="attrs" v-on="on">
             <slot></slot>
           </v-btn>
         </v-badge>

@@ -5,28 +5,31 @@
         {{ recipe.name }}
       </v-card-title>
       <SafeMarkdown :source="recipe.description" />
-      <div v-if="isOwnGroup" class="pb-2 d-flex justify-center flex-wrap">
-        <RecipeLastMade
-          v-model="recipe.lastMade"
-          :recipe="recipe"
-          class="d-flex justify-center flex-wrap"
-          :class="true ? undefined : 'force-bottom'"
-        />
-      </div>
-      <div class="pb-2 d-flex justify-center flex-wrap">
+      <div class="pb-2 d-flex justify-left flex-wrap">
         <RecipeTimeCard
-          class="d-flex justify-center flex-wrap"
+          class="d-flex justify-left flex-wrap"
           :prep-time="recipe.prepTime"
           :total-time="recipe.totalTime"
           :perform-time="recipe.performTime"
+          color="grey-lighten-1 custom-transparent"
         />
-        <RecipeRating
-          v-if="$vuetify.breakpoint.smAndDown"
-          :key="recipe.slug"
-          v-model="recipe.rating"
-          :name="recipe.name"
-          :slug="recipe.slug"
-        />
+        <v-btn
+            v-if="recipe.orgURL && !isCookMode"
+            dense
+            small
+            flat
+            dark
+            :hover="false"
+            type="label"
+            :ripple="false"
+            elevation="0"
+            :href="recipe.orgURL"
+            :color="$vuetify.theme.dark ? '#007575' : '#0aa'"
+            target="_blank"
+            class="rounded mt-4"
+          >
+            {{ $t("recipe.original-url") }}
+          </v-btn>
       </div>
       <v-divider></v-divider>
     </template>

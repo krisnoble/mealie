@@ -26,7 +26,7 @@
     <template v-if="topLink">
       <v-list nav dense>
         <template v-for="nav in topLink">
-          <div v-if="!nav.restricted || isOwnGroup" :key="nav.title">
+          <div v-if="(!nav.restricted || isOwnGroup) && !nav.hidden" :key="nav.title">
             <!-- Multi Items -->
             <v-list-group
               v-if="nav.children"
@@ -82,7 +82,7 @@
       <v-divider v-if="secondaryHeader"></v-divider>
       <v-list nav dense exact>
         <template v-for="nav in secondaryLinks">
-          <div v-if="!nav.restricted || isOwnGroup" :key="nav.title">
+          <div v-if="(!nav.restricted || isOwnGroup) && !nav.hidden" :key="nav.title">
             <!-- Multi Items -->
             <v-list-group
               v-if="nav.children"

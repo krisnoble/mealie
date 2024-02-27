@@ -6,6 +6,7 @@
       hover
       :to="$listeners.selected ? undefined : recipeRoute"
       @click="$emit('selected')"
+      elevation="0"
     >
       <v-img v-if="vertical" class="rounded-sm">
         <RecipeCardImage
@@ -31,22 +32,10 @@
           </v-list-item-avatar>
         </slot>
         <v-list-item-content class="py-0">
-          <v-list-item-title class="mt-3 mb-1">{{ name }} </v-list-item-title>
-          <v-list-item-subtitle>
-            <SafeMarkdown :source="description" />
-          </v-list-item-subtitle>
+          <div class="text-h6 pr-3">{{ name }} </div>
           <div class="d-flex flex-wrap justify-end align-center">
             <slot name="actions">
-              <RecipeFavoriteBadge v-if="isOwnGroup" :slug="slug" show-always />
-              <v-rating
-                color="secondary"
-                :class="isOwnGroup ? 'ml-auto' : 'ml-auto pb-2'"
-                background-color="secondary lighten-3"
-                dense
-                length="5"
-                size="15"
-                :value="rating"
-              ></v-rating>
+
               <v-spacer></v-spacer>
 
               <!-- If we're not logged-in, no items display, so we hide this menu -->
@@ -61,8 +50,8 @@
                   delete: false,
                   edit: true,
                   download: true,
-                  mealplanner: true,
-                  shoppingList: true,
+                  mealplanner: false,
+                  shoppingList: false,
                   print: false,
                   printPreferences: false,
                   share: true,

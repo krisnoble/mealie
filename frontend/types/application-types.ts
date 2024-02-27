@@ -5,6 +5,7 @@ export interface SideBarLink {
   title: string;
   children?: SideBarLink[];
   restricted: boolean;
+  hidden: boolean;
 }
 
 export type SidebarLinks = Array<SideBarLink>;

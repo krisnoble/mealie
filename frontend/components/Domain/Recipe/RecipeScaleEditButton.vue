@@ -4,7 +4,7 @@
       <div>
         <v-menu v-model="menu" :disabled="!editScale" offset-y top nudge-top="6" :close-on-content-click="false">
           <template #activator="{ on, attrs }">
-            <v-card class="pa-1 px-2" dark color="secondary darken-1" small v-bind="attrs" v-on="on">
+            <v-card class="pa-1 px-1" :color="$vuetify.theme.dark ? 'primary darken-1' : 'primary white--text'" flat small v-bind="attrs" v-on="on">
               <span v-if="recipeYield"> {{ scaledYield }} </span>
               <span v-if="!recipeYield"> x {{ scale }} </span>
             </v-card>

@@ -13,17 +13,19 @@
       >
         <v-menu offset-y nudge-bottom="5" close-delay="50" nudge-right="15">
           <template #activator="{ on, attrs }">
-            <v-btn v-if="isOwnGroup" rounded large class="ml-2 mt-3" v-bind="attrs" v-on="on">
+            <v-flex xs11>
+            <v-btn v-if="isOwnGroup" rounded elevation="0" xs12 block large class="mx-2 mt-3" style="border-bottom: 1px solid rgba(0,0,0, 0.125);" v-bind="attrs" v-on="on">
               <v-icon left large color="primary">
                 {{ $globals.icons.createAlt }}
               </v-icon>
               {{ $t("general.create") }}
             </v-btn>
+          </v-flex>
           </template>
           <v-list dense class="my-0 py-0">
             <template v-for="(item, index) in createLinks">
-              <v-divider v-if="item.insertDivider" :key="index" class="mx-2"></v-divider>
-              <v-list-item v-if="!item.restricted || isOwnGroup" :key="item.title" :to="item.to" exact>
+              <v-divider v-if="item.insertDivider && !item.hidden" :key="index" class="mx-2"></v-divider>
+              <v-list-item v-if="(!item.restricted || isOwnGroup) && !item.hidden" :key="item.title" :to="item.to" exact>
                 <v-list-item-avatar>
                   <v-icon>
                     {{ item.icon }}
@@ -61,12 +63,22 @@
               {{ $vuetify.theme.dark ? $t("settings.theme.light-mode") : $t("settings.theme.dark-mode") }}
             </v-list-item-title>
           </v-list-item>
+          <v-list-item @click="loggedIn ? $auth.logout() : $router.push('/login')">
+            <v-list-item-icon>
+              <v-icon>
+                {{ loggedIn ? $globals.icons.logout : $globals.icons.user }}
+              </v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              {{ loggedIn ? $t("user.logout") : $t("user.login") }}
+            </v-list-item-title>
+          </v-list-item>
         </template>
       </AppSidebar>
 
       <AppHeader>
         <v-btn icon @click.stop="sidebar = !sidebar">
-          <v-icon> {{ $globals.icons.menu }}</v-icon>
+          <v-icon color="white"> {{ $globals.icons.menu }}</v-icon>
         </v-btn>
       </AppHeader>
       <v-main>
@@ -93,6 +105,7 @@
     setup() {
       const { $globals, $auth, $vuetify, i18n } = useContext();
       const { isOwnGroup } = useLoggedInState();
+      const { loggedIn } = useLoggedInState();
 
       const isAdmin = computed(() => $auth.user?.admin);
       const route = useRoute();
@@ -127,6 +140,7 @@
         subtitle: string | null;
         to: string;
         restricted: boolean;
+        hidden: boolean;
       }
 
       const createLinks = computed<Link[]>(() => [
@@ -137,6 +151,7 @@
           subtitle: i18n.tc("new-recipe.import-by-url"),
           to: `/g/${groupSlug.value}/r/create/url`,
           restricted: true,
+          hidden: false,
         },
         {
           insertDivider: true,
@@ -145,6 +160,7 @@
           subtitle: i18n.tc("new-recipe.create-manually"),
           to: `/g/${groupSlug.value}/r/create/new`,
           restricted: true,
+          hidden: false,
         },
         {
           insertDivider: true,
@@ -153,6 +169,7 @@
           subtitle: i18n.tc("sidebar.create-cookbook"),
           to: `/g/${groupSlug.value}/cookbooks`,
           restricted: true,
+          hidden: true,
         },
       ]);
 
@@ -162,51 +179,59 @@
           title: i18n.tc("general.settings"),
           to: "/admin/site-settings",
           restricted: true,
+          hidden: false,
         },
       ]);
 
       const topLinks = computed<SidebarLinks>(() => [
         {
-          icon: $globals.icons.search,
+          icon: $globals.icons.primary,
           to: `/g/${groupSlug.value}`,
-          title: i18n.tc("sidebar.search"),
+          title: i18n.tc("general.recipes"),
           restricted: true,
+          hidden: false,
         },
         {
           icon: $globals.icons.calendarMultiselect,
           title: i18n.tc("meal-plan.meal-planner"),
           to: "/group/mealplan/planner/view",
           restricted: true,
+          hidden: true,
         },
         {
           icon: $globals.icons.formatListCheck,
           title: i18n.tc("shopping-list.shopping-lists"),
           to: "/shopping-lists",
           restricted: true,
+          hidden: true,
         },
         {
           icon: $globals.icons.timelineText,
           title: i18n.tc("recipe.timeline"),
           to: `/g/${groupSlug.value}/recipes/timeline`,
           restricted: true,
+          hidden: true,
         },
         {
           icon: $globals.icons.categories,
           to: `/g/${groupSlug.value}/recipes/categories`,
           title: i18n.tc("sidebar.categories"),
           restricted: true,
+          hidden: false,
         },
         {
           icon: $globals.icons.tags,
           to: `/g/${groupSlug.value}/recipes/tags`,
           title: i18n.tc("sidebar.tags"),
           restricted: true,
+          hidden: false,
         },
         {
           icon: $globals.icons.potSteam,
           to: `/g/${groupSlug.value}/recipes/tools`,
           title: i18n.tc("tool.tools"),
           restricted: true,
+          hidden: true,
         },
       ]);
 
@@ -221,6 +246,7 @@
         languageDialog,
         toggleDark,
         sidebar,
+        loggedIn,
       };
     },
   });

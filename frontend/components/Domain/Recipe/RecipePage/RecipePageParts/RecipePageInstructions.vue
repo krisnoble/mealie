@@ -113,115 +113,114 @@
             </v-text-field>
           </v-app-bar>
           <v-hover v-slot="{ hover }">
-            <v-card
-              class="my-3"
-              :class="[{ 'on-hover': hover }, isChecked(index)]"
-              :elevation="hover ? 12 : 2"
-              :ripple="false"
-              @click="toggleDisabled(index)"
-            >
-              <v-card-title :class="{ 'pb-0': !isChecked(index) }">
-                <span :class="isEditForm ? 'handle' : ''">
-                  <v-icon v-if="isEditForm" size="26" class="pb-1">{{ $globals.icons.arrowUpDown }}</v-icon>
-                  {{ $t("recipe.step-index", { step: index + 1 }) }}
-                </span>
-                <template v-if="isEditForm">
-                  <div class="ml-auto">
-                    <BaseButtonGroup
-                      :large="false"
-                      :buttons="[
-                        {
-                          icon: $globals.icons.delete,
-                          text: $tc('general.delete'),
-                          event: 'delete',
-                        },
-                        {
-                          icon: $globals.icons.dotsVertical,
-                          text: '',
-                          event: 'open',
-                          children: [
-                            {
-                              text: $tc('recipe.toggle-section'),
-                              event: 'toggle-section',
-                            },
-                            {
-                              text: $tc('recipe.link-ingredients'),
-                              event: 'link-ingredients',
-                            },
-                            {
-                              text: $tc('recipe.merge-above'),
-                              event: 'merge-above',
-                            },
-                            {
-                              text: $tc('recipe.upload-image'),
-                              event: 'upload-image'
-                            },
-                            {
-                              icon: previewStates[index] ? $globals.icons.edit : $globals.icons.eye,
-                              text: previewStates[index] ? $tc('recipe.edit-markdown') : $tc('markdown-editor.preview-markdown-button-label'),
-                              event: 'preview-step',
-                            },
-                          ],
-                        },
-                      ]"
-                      @merge-above="mergeAbove(index - 1, index)"
-                      @toggle-section="toggleShowTitle(step.id)"
-                      @link-ingredients="openDialog(index, step.text, step.ingredientReferences)"
-                      @preview-step="togglePreviewState(index)"
-                      @upload-image="openImageUpload(index)"
-                      @delete="value.splice(index, 1)"
-                    />
-                  </div>
-                </template>
-                <v-fade-transition>
-                  <v-icon v-show="isChecked(index)" size="24" class="ml-auto" color="success">
-                    {{ $globals.icons.checkboxMarkedCircle }}
-                  </v-icon>
-                </v-fade-transition>
-              </v-card-title>
-
-              <v-progress-linear v-if="isEditForm && loadingStates[index]" :active="true" :indeterminate="true" />
-
-              <!-- Content -->
-              <DropZone @drop="(f) => handleImageDrop(index, f)">
-                <v-card-text
-                v-if="isEditForm"
-                @click="$emit('click-instruction-field', `${index}.text`)"
-                >
-                  <MarkdownEditor
-                    v-model="value[index]['text']"
-                    class="mb-2"
-                    :preview.sync="previewStates[index]"
-                    :display-preview="false"
-                    :textarea="{
-                      hint: $t('recipe.attach-images-hint'),
-                      persistentHint: true,
-                    }"
-                  />
-                  <RecipeIngredientHtml
-                    v-for="ing in step.ingredientReferences"
-                    :key="ing.referenceId"
-                    :markup="getIngredientByRefId(ing.referenceId)"
-                  />
-                </v-card-text>
-              </DropZone>
-              <v-expand-transition>
-                <div v-show="!isChecked(index) && !isEditForm" class="m-0 p-0">
-                  <v-card-text class="markdown">
-                    <SafeMarkdown class="markdown" :source="step.text" />
-                    <div v-if="isCookMode && step.ingredientReferences && step.ingredientReferences.length > 0">
-                      <v-divider class="mb-2"></v-divider>
-                      <RecipeIngredientHtml
-                        v-for="ing in step.ingredientReferences"
-                        :key="ing.referenceId"
-                        :markup="getIngredientByRefId(ing.referenceId)"
+              <v-card
+                :class="[{ 'on-hover': hover }, isChecked(index)] + $vuetify.breakpoint.mdAndDown ? ' px-0 pb-0 pt-3' : ' pb-0 pt-3'"
+                :elevation="0"
+                :ripple="false"
+                @click="toggleDisabled(index)"
+              >
+                <v-card-title :class="{ 'px-0': !isChecked(index) + $vuetify.breakpoint.mdAndDown ? ' px-0' : ''}">
+                  <span :class="isEditForm ? 'handle' : ''">
+                    <v-icon v-if="isEditForm" size="26" class="pb-1">{{ $globals.icons.arrowUpDown }}</v-icon>
+                    {{ $t("recipe.step-index", { step: index + 1 }) }}
+                  </span>
+                  <template v-if="isEditForm">
+                    <div class="ml-auto">
+                      <BaseButtonGroup
+                        :large="false"
+                        :buttons="[
+                          {
+                            icon: $globals.icons.delete,
+                            text: $tc('general.delete'),
+                            event: 'delete',
+                          },
+                          {
+                            icon: $globals.icons.dotsVertical,
+                            text: '',
+                            event: 'open',
+                            children: [
+                              {
+                                text: $tc('recipe.toggle-section'),
+                                event: 'toggle-section',
+                              },
+                              {
+                                text: $tc('recipe.link-ingredients'),
+                                event: 'link-ingredients',
+                              },
+                              {
+                                text: $tc('recipe.merge-above'),
+                                event: 'merge-above',
+                              },
+                              {
+                                text: $tc('recipe.upload-image'),
+                                event: 'upload-image'
+                              },
+                              {
+                                icon: previewStates[index] ? $globals.icons.edit : $globals.icons.eye,
+                                text: previewStates[index] ? $tc('recipe.edit-markdown') : $tc('markdown-editor.preview-markdown-button-label'),
+                                event: 'preview-step',
+                              },
+                            ],
+                          },
+                        ]"
+                        @merge-above="mergeAbove(index - 1, index)"
+                        @toggle-section="toggleShowTitle(step.id)"
+                        @link-ingredients="openDialog(index, step.text, step.ingredientReferences)"
+                        @preview-step="togglePreviewState(index)"
+                        @upload-image="openImageUpload(index)"
+                        @delete="value.splice(index, 1)"
                       />
                     </div>
+                  </template>
+                  <v-fade-transition>
+                    <v-icon v-show="isChecked(index)" size="24" class="ml-auto" color="success">
+                      {{ $globals.icons.checkboxMarkedCircle }}
+                    </v-icon>
+                  </v-fade-transition>
+                </v-card-title>
+                <v-progress-linear v-if="isEditForm && loadingStates[index]" :active="true" :indeterminate="true" />
+                <!-- Content -->
+                <DropZone @drop="(f) => handleImageDrop(index, f)">
+                  <v-card-text
+                  v-if="isEditForm"
+                  @click="$emit('click-instruction-field', `${index}.text`)"
+                  >
+                    <MarkdownEditor
+                      v-model="value[index]['text']"
+                      class="mb-2"
+                      :preview.sync="previewStates[index]"
+                      :display-preview="false"
+                      :textarea="{
+                        hint: $t('recipe.attach-images-hint'),
+                        persistentHint: true,
+                      }"
+                    />
+                    <RecipeIngredientHtml
+                      v-for="ing in step.ingredientReferences"
+                      :key="ing.referenceId"
+                      :markup="getIngredientByRefId(ing.referenceId)"
+                    />
                   </v-card-text>
-                </div>
-              </v-expand-transition>
-            </v-card>
+                </DropZone>
+                <v-expand-transition>
+                  <div v-show="!isChecked(index) && !isEditForm" class="m-0 p-0">
+                    <v-card-text class="markdown text-body-1 px-0 pt-0">
+                      <SafeMarkdown class="markdown " :source="step.text" />
+                      <div v-if="isCookMode && step.ingredientReferences && step.ingredientReferences.length > 0">
+                        <v-divider class="mb-2"></v-divider>
+                        <RecipeIngredientHtml
+                          v-for="ing in step.ingredientReferences"
+                          :key="ing.referenceId"
+                          :markup="getIngredientByRefId(ing.referenceId)"
+                        />
+                      </div>
+                    </v-card-text>
+                  </div>
+                </v-expand-transition>
+              </v-card>
           </v-hover>
+
+          <v-divider class="mb-0" v-if="index != value.length - 1"></v-divider>
         </div>
       </TransitionGroup>
     </draggable>

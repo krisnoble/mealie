@@ -3,9 +3,9 @@
     <v-hover v-slot="{ hover }" :open-delay="50">
       <v-card
         :class="{ 'on-hover': hover }"
-        :elevation="hover ? 12 : 2"
+        :elevation="0"
+
         :to="route ? recipeRoute : ''"
-        :min-height="imageHeight + 75"
         @click="$emit('click')"
       >
         <RecipeCardImage
@@ -14,54 +14,42 @@
           :slug="slug"
           :recipe-id="recipeId"
           small
+          class="rounded"
           :image-version="image"
-        >
-          <v-expand-transition v-if="description">
-            <div v-if="hover" class="d-flex transition-fast-in-fast-out secondary v-card--reveal" style="height: 100%">
-              <v-card-text class="v-card--text-show white--text">
-                <div class="descriptionWrapper">
-                  <SafeMarkdown :source="description" />
-                </div>
-              </v-card-text>
+        />
+
+          <slot name="actions">
+            <v-card-actions class="px-0">
+              <!-- <RecipeFavoriteBadge v-if="isOwnGroup" class="absolute" :slug="slug" show-always /> -->
+              <v-card-title class="px-0 mx-0 py-1">
+            <div class="text-h6">
+              {{ name }}
             </div>
-          </v-expand-transition>
-        </RecipeCardImage>
-        <v-card-title class="my-n3 px-2 mb-n6">
-          <div class="headerClass">
-            {{ name }}
-          </div>
-        </v-card-title>
+          </v-card-title>
+              <v-spacer></v-spacer>
 
-        <slot name="actions">
-          <v-card-actions class="px-1">
-            <RecipeFavoriteBadge v-if="isOwnGroup" class="absolute" :slug="slug" show-always />
-
-            <RecipeRating class="pb-1" :value="rating" :name="name" :slug="slug" :small="true" />
-            <v-spacer></v-spacer>
-            <RecipeChips :truncate="true" :items="tags" :title="false" :limit="2" :small="true" url-prefix="tags" />
-
-            <!-- If we're not logged-in, no items display, so we hide this menu -->
-            <RecipeContextMenu
-              v-if="isOwnGroup"
-              color="grey darken-2"
-              :slug="slug"
-              :name="name"
-              :recipe-id="recipeId"
-              :use-items="{
-                delete: false,
-                edit: true,
-                download: true,
-                mealplanner: true,
-                shoppingList: true,
-                print: false,
-                printPreferences: false,
-                share: true,
-              }"
-              @delete="$emit('delete', slug)"
-            />
-          </v-card-actions>
-        </slot>
-        <slot></slot>
+              <!-- If we're not logged-in, no items display, so we hide this menu -->
+              <RecipeContextMenu
+                v-if="isOwnGroup"
+                color="grey darken-2"
+                :slug="slug"
+                :name="name"
+                :recipe-id="recipeId"
+                :menu-top="true"
+                :use-items="{
+                  delete: false,
+                  edit: true,
+                  download: true,
+                  mealplanner: false,
+                  shoppingList: false,
+                  print: false,
+                  printPreferences: false,
+                  share: true
+                }"
+                @delete="$emit('delete', slug)"
+              />
+            </v-card-actions>
+          </slot>
       </v-card>
     </v-hover>
   </v-lazy>
@@ -75,6 +63,8 @@ import RecipeContextMenu from "./RecipeContextMenu.vue";
 import RecipeCardImage from "./RecipeCardImage.vue";
 import RecipeRating from "./RecipeRating.vue";
 import { useLoggedInState } from "~/composables/use-logged-in-state";
+import { colors } from "vuetify/lib";
+import { useDark } from "@vueuse/core";
 
 export default defineComponent({
   components: { RecipeFavoriteBadge, RecipeChips, RecipeContextMenu, RecipeRating, RecipeCardImage },

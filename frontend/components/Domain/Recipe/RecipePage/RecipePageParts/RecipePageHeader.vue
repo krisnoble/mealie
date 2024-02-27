@@ -1,32 +1,40 @@
 <template>
   <div>
     <div class="d-flex justify-end flex-wrap align-stretch">
-      <v-card v-if="!landscape" width="50%" flat class="d-flex flex-column justify-center align-center">
+      <v-card v-if="!landscape" width="50%" flat class="d-flex flex-column justify-center align-left">
         <v-card-text>
-          <v-card-title class="headline pa-0 flex-column align-center">
+          <v-card-title class="headline pa-0">
             {{ recipe.name }}
-            <RecipeRating :key="recipe.slug" v-model="recipe.rating" :name="recipe.name" :slug="recipe.slug" />
+            <!-- <RecipeRating :key="recipe.slug" v-model="recipe.rating" :name="recipe.name" :slug="recipe.slug" /> -->
           </v-card-title>
-          <v-divider class="my-2"></v-divider>
-          <SafeMarkdown :source="recipe.description" />
-          <v-divider></v-divider>
-          <div v-if="isOwnGroup" class="d-flex justify-center mt-5">
-            <RecipeLastMade
-              v-model="recipe.lastMade"
-              :recipe="recipe"
-              class="d-flex justify-center flex-wrap"
-              :class="true ? undefined : 'force-bottom'"
-            />
-          </div>
-          <div class="d-flex justify-center mt-5">
+          <SafeMarkdown class="my-8" :source="recipe.description" />
+          <div class="d-flex justify-left mt-5">
             <RecipeTimeCard
-              class="d-flex justify-center flex-wrap"
+              class="d-flex justify-left flex-wrap"
               :class="true ? undefined : 'force-bottom'"
               :prep-time="recipe.prepTime"
               :total-time="recipe.totalTime"
               :perform-time="recipe.performTime"
+              color="grey-lighten-1 custom-transparent"
             />
           </div>
+          <v-btn
+            v-if="recipe.orgURL && !isCookMode"
+            dense
+            small
+            flat
+            dark
+            :hover="false"
+            type="label"
+            :ripple="false"
+            elevation="0"
+            :href="recipe.orgURL"
+            :color="$vuetify.theme.dark ? '#007575' : '#0aa'"
+            target="_blank"
+            class="rounded mt-4"
+          >
+            {{ $t("recipe.original-url") }}
+          </v-btn>
         </v-card-text>
       </v-card>
       <v-img

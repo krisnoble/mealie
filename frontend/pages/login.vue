@@ -19,13 +19,8 @@
         </p>
       </div>
     </v-alert>
-    <v-card tag="section" class="d-flex flex-column align-center" width="600px">
-      <v-toolbar width="100%" color="primary" class="d-flex justify-center mb-4" dark>
-        <v-toolbar-title class="headline text-h4"> Mealie </v-toolbar-title>
-      </v-toolbar>
-
+    <v-card tag="section" class="d-flex flex-column align-center" flat width="600px">
       <div class="icon-container">
-        <v-divider class="icon-divider"></v-divider>
         <v-avatar class="pa-2 icon-avatar" color="primary" size="100">
           <svg class="icon-white" style="width: 100px; height: 100px" viewBox="0 0 24 24">
             <path

@@ -38,25 +38,25 @@
           </SearchFilter>
 
           <!-- Tool Filter -->
-          <SearchFilter v-if="tools" v-model="selectedTools" :require-all.sync="state.requireAllTools" :items="tools">
+          <!-- <SearchFilter v-if="tools" v-model="selectedTools" :require-all.sync="state.requireAllTools" :items="tools">
             <v-icon left>
               {{ $globals.icons.potSteam }}
             </v-icon>
             {{ $t("tool.tools") }}
-          </SearchFilter>
+          </SearchFilter> -->
 
           <!-- Food Filter -->
-          <SearchFilter v-if="foods" v-model="selectedFoods" :require-all.sync="state.requireAllFoods" :items="foods">
+          <!-- <SearchFilter v-if="foods" v-model="selectedFoods" :require-all.sync="state.requireAllFoods" :items="foods">
             <v-icon left>
               {{ $globals.icons.foods }}
             </v-icon>
             {{ $t("general.foods") }}
-          </SearchFilter>
+          </SearchFilter> -->
 
           <!-- Sort Options -->
           <v-menu offset-y nudge-bottom="3">
             <template #activator="{ on, attrs }">
-              <v-btn class="ml-auto" small color="accent" v-bind="attrs" v-on="on">
+              <v-btn class="ml-auto" small elevation="0" :color="($vuetify.theme.dark ? '#007575' : '#0aa')" dark v-bind="attrs" v-on="on">
                 <v-icon :left="!$vuetify.breakpoint.xsOnly">
                   {{ state.orderDirection === "asc" ? $globals.icons.sortAscending : $globals.icons.sortDescending }}
                 </v-icon>
@@ -91,7 +91,7 @@
           <!-- Settings -->
           <v-menu offset-y bottom left nudge-bottom="3" :close-on-content-click="false">
             <template #activator="{ on, attrs }">
-              <v-btn small color="accent" dark v-bind="attrs" v-on="on">
+              <v-btn small elevation="0"  :color="($vuetify.theme.dark ? '#007575' : '#0aa')" dark v-bind="attrs" v-on="on">
                 <v-icon small>
                   {{ $globals.icons.cog }}
                 </v-icon>
@@ -121,8 +121,8 @@
     <v-container class="mt-6 px-md-6">
       <RecipeCardSection
         class="mt-n5"
-        :icon="$globals.icons.search"
-        :title="$tc('search.results')"
+        :icon="passedQuery && passedQuery.search != '' ? $globals.icons.search : $globals.icons.primary"
+        :title="passedQuery && passedQuery.search != '' ? $tc('search.results') :  $tc('general.recipes')"
         :recipes="recipes"
         :query="passedQuery"
         @replaceRecipes="replaceRecipes"

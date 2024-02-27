@@ -1,6 +1,6 @@
 <template>
   <v-container :class="{ 'pa-0': $vuetify.breakpoint.smAndDown }">
-    <v-card :flat="$vuetify.breakpoint.smAndDown" class="d-print-none">
+    <v-card flat class="d-print-none">
       <RecipePageHeader
         :recipe="recipe"
         :recipe-scale="scale"
@@ -23,8 +23,15 @@
         <RecipePageEditorToolbar v-if="isEditForm" :recipe="recipe" />
         <RecipePageTitleContent :recipe="recipe" :landscape="landscape" />
         <RecipePageIngredientEditor v-if="isEditForm" :recipe="recipe" />
-        <RecipePageScale :recipe="recipe" :scale.sync="scale" :landscape="landscape" />
+        <v-card-actions class="px-0">
+          <RecipePageScale :recipe="recipe" :scale.sync="scale" :landscape="landscape" />
+          <v-spacer></v-spacer>
 
+          <div v-if="recipe && wakeIsSupported" class="d-print-none d-flex px-2 justify-end">
+            <v-switch v-model="wakeLock" small :label="$t('recipe.screen-awake')" />
+          </div>
+
+        </v-card-actions>
         <!--
           This section contains the 2 column layout for the recipe steps and other content.
          -->
@@ -32,10 +39,11 @@
           <!--
             The left column is conditionally rendered based on cook mode.
            -->
-          <v-col v-if="!isCookMode || isEditForm" cols="12" sm="12" md="4" lg="4">
+          <v-col v-if="!isCookMode || isEditForm" cols="12" sm="12" md="4" lg="4" class="pr-4">
             <RecipePageIngredientToolsView v-if="!isEditForm" :recipe="recipe" :scale="scale" />
             <RecipePageOrganizers v-if="$vuetify.breakpoint.mdAndUp" :recipe="recipe" />
           </v-col>
+
           <v-divider v-if="$vuetify.breakpoint.mdAndUp && !isCookMode" class="my-divider" :vertical="true" />
 
           <!--
@@ -48,6 +56,7 @@
               :assets.sync="recipe.assets"
               :recipe="recipe"
               :scale="scale"
+              :class="$vuetify.breakpoint.mdAndUp ? 'pl-6' : ''"
             />
             <div v-if="isEditForm" class="d-flex">
               <RecipeDialogBulkAdd class="ml-auto my-2 mr-1" @bulk-data="addStep" />
@@ -63,19 +72,11 @@
       </v-card-text>
     </v-card>
 
-    <div
-      v-if="recipe && wakeIsSupported"
-      class="d-print-none d-flex px-2"
-      :class="$vuetify.breakpoint.smAndDown ? 'justify-center' : 'justify-end'"
-    >
-      <v-switch v-model="wakeLock" small :label="$t('recipe.screen-awake')" />
-    </div>
-
-    <RecipePageComments
+    <!-- <RecipePageComments
       v-if="isOwnGroup && !recipe.settings.disableComments && !isEditForm && !isCookMode"
       :recipe="recipe"
       class="px-1 my-4 d-print-none"
-    />
+    /> -->
     <RecipePrintContainer :recipe="recipe" :scale="scale" />
   </v-container>
 </template>

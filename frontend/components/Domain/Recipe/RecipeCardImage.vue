@@ -6,6 +6,7 @@
     @click="$emit('click')"
     @load="fallBackImage = false"
     @error="fallBackImage = true"
+    class="opacity-hover"
   >
     <slot> </slot>
   </v-img>
@@ -114,5 +115,13 @@ export default defineComponent({
   position: relative;
   margin-left: auto !important;
   margin-right: auto !important;
+}
+
+.dark .v-card .v-image {
+  opacity:0.8
+}
+
+.dark .v-card:hover .v-image {
+  opacity: 1 !important
 }
 </style>

@@ -22,31 +22,17 @@
     <v-spacer></v-spacer>
     <div v-if="!open" class="custom-btn-group ma-1">
       <RecipeFavoriteBadge v-if="loggedIn" class="mx-1" color="info" button-style :slug="recipe.slug" show-always />
-      <RecipeTimelineBadge v-if="loggedIn" button-style :slug="recipe.slug" :recipe-name="recipe.name" />
-      <div v-if="loggedIn">
-        <v-tooltip v-if="!locked" bottom color="info">
-          <template #activator="{ on, attrs }">
-            <v-btn fab small class="mx-1" color="info" v-bind="attrs" v-on="on" @click="$emit('edit', true)">
-              <v-icon> {{ $globals.icons.edit }} </v-icon>
-            </v-btn>
-          </template>
-          <span>{{ $t("general.edit") }}</span>
-        </v-tooltip>
-        <v-tooltip v-else bottom color="info">
-          <template #activator="{ on, attrs }">
-            <v-btn fab small class="mx-1" color="info" v-bind="attrs" v-on="on">
-              <v-icon> {{ $globals.icons.lock }} </v-icon>
-            </v-btn>
-          </template>
-          <span> {{ $t("recipe.locked-by-owner") }} </span>
-        </v-tooltip>
-      </div>
+      <!-- <RecipeTimelineBadge v-if="loggedIn" button-style :slug="recipe.slug" :recipe-name="recipe.name" /> -->
+      <v-btn v-if="loggedIn && !locked" fab small class="mx-1" color="info" v-bind="attrs" v-on="on" @click="$emit('edit', true)">
+        <v-icon> {{ $globals.icons.edit }} </v-icon>
+      </v-btn>
 
-      <RecipeTimerMenu
+
+      <!-- <RecipeTimerMenu
         fab
         color="info"
         class="mr-1"
-      />
+      /> -->
 
       <RecipeContextMenu
         show-print
@@ -65,8 +51,8 @@
           edit: false,
           download: loggedIn,
           duplicate: loggedIn,
-          mealplanner: loggedIn,
-          shoppingList: loggedIn,
+          mealplanner: false,
+          shoppingList: false,
           print: true,
           printPreferences: true,
           share: loggedIn,

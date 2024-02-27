@@ -1,15 +1,12 @@
 <template>
-  <v-app-bar clipped-left dense app color="primary" dark class="d-print-none">
+  <v-app-bar clipped-left dense app :color="($vuetify.theme.dark ? '#333' : '#999')" class="d-print-none" elevation="0">
     <slot />
     <router-link :to="routerLink">
       <v-btn icon>
-        <v-icon size="40"> {{ $globals.icons.primary }} </v-icon>
+        <v-icon color="white" size="40"> {{ $globals.icons.primary }} </v-icon>
       </v-btn>
     </router-link>
 
-    <div btn class="pl-2">
-      <v-toolbar-title style="cursor: pointer" @click="$router.push(routerLink)"> Mealie </v-toolbar-title>
-    </div>
     <RecipeDialogSearch ref="domSearchDialog" />
 
     <v-spacer></v-spacer>
@@ -21,27 +18,18 @@
           readonly
           class="mt-6 rounded-xl"
           rounded
-          dark
           solo
           dense
           flat
           :prepend-inner-icon="$globals.icons.search"
-          background-color="primary darken-1"
+          :background-color="$vuetify.theme.dark ? '#444' : '#bbb'"
           color="white"
           :placeholder="$t('search.search-hint')"
         >
         </v-text-field>
       </div>
       <v-btn v-else icon @click="activateSearch">
-        <v-icon> {{ $globals.icons.search }}</v-icon>
-      </v-btn>
-      <v-btn v-if="loggedIn" :text="$vuetify.breakpoint.smAndUp" :icon="$vuetify.breakpoint.xs" @click="$auth.logout()">
-        <v-icon :left="$vuetify.breakpoint.smAndUp">{{ $globals.icons.logout }}</v-icon>
-        {{ $vuetify.breakpoint.smAndUp ? $t("user.logout") : "" }}
-      </v-btn>
-      <v-btn v-else text nuxt to="/login">
-        <v-icon left>{{ $globals.icons.user }}</v-icon>
-        {{ $t("user.login") }}
+        <v-icon color="white"> {{ $globals.icons.search }}</v-icon>
       </v-btn>
     </template>
   </v-app-bar>
