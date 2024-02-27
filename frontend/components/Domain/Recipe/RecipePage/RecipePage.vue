@@ -102,7 +102,7 @@ import RecipePageInstructions from "./RecipePageParts/RecipePageInstructions.vue
 import RecipePageOrganizers from "./RecipePageParts/RecipePageOrganizers.vue";
 import RecipePageScale from "./RecipePageParts/RecipePageScale.vue";
 import RecipePageTitleContent from "./RecipePageParts/RecipePageTitleContent.vue";
-import RecipePageComments from "./RecipePageParts/RecipePageComments.vue";
+// import RecipePageComments from "./RecipePageParts/RecipePageComments.vue";
 import { useLoggedInState } from "~/composables/use-logged-in-state";
 import RecipePrintContainer from "~/components/Domain/Recipe/RecipePrintContainer.vue";
 import { EditorMode, PageMode, usePageState, usePageUser } from "~/composables/recipe-page/shared-state";
@@ -125,7 +125,7 @@ export default defineComponent({
   components: {
     RecipePageHeader,
     RecipePrintContainer,
-    RecipePageComments,
+    // RecipePageComments,
     RecipePageTitleContent,
     RecipePageEditorToolbar,
     RecipePageIngredientEditor,
